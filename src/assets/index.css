@@ -1,0 +1,13 @@
+@import "tailwindcss";
+@plugin "daisyui" {
+  themes: all;
+}
+@theme {
+  --font-underdog: "Underdog", sans-serif;
+}
+
+@font-face {
+  font-family: "Underdog";
+  display: swap;
+  src: url("/Underdog-Regular.ttf");
+}
