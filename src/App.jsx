@@ -13,7 +13,6 @@ function App() {
   const [filteredItems, setFilteredItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const [noCartItems, setNoCartItems] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const categories = Array.from(new Set(items.map((item) => item.category)));
@@ -31,12 +30,6 @@ function App() {
   }, []);
 
   useEffect(() => {
-    let ctr = 0;
-    selectedItems.forEach((selected) => (ctr += selected.count));
-    setNoCartItems(ctr);
-  }, [selectedItems]);
-
-  useEffect(() => {
     const newFilteredItems = items.filter((item) => {
       const isInSameCategory =
         selectedCategory === "all" || item.category === selectedCategory;
@@ -48,6 +41,10 @@ function App() {
     setCurrentPage(1);
     setFilteredItems(newFilteredItems);
   }, [searchTerm]);
+
+  const noCartItems = useMemo(() => {
+    return selectedItems.reduce((sum, item) => sum + item.count, 0);
+  }, [selectedItems]);
 
   const currentPageItems = useMemo(() => {
     const start = (currentPage - 1) * 12;
