@@ -6,6 +6,9 @@ import { BrowserRouter, Routes, Route } from "react-router";
 import Products from "./pages/Products";
 import Search from "./components/Search";
 import PageNumbers from "./components/PageNumbers";
+import Admin from "./pages/Admin";
+
+import ItemContext from "./context/ItemContext";
 
 function App() {
   const [items, setItems] = useState([]);
@@ -15,6 +18,8 @@ function App() {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
+  const [inventorySearchTerm, setInventorySearchTerm] = useState("");
+
   const categories = Array.from(new Set(items.map((item) => item.category)));
   const noPages = Math.ceil(filteredItems.length / 12);
 
@@ -40,7 +45,17 @@ function App() {
     });
     setCurrentPage(1);
     setFilteredItems(newFilteredItems);
-  }, [searchTerm]);
+  }, [searchTerm, items]);
+
+  const inventoryFilteredItems = useMemo(() => {
+    const newFilteredItems = items.filter(
+      (item) =>
+        item.name.toLowerCase().includes(inventorySearchTerm.toLowerCase()) ||
+        String(item.id) === inventorySearchTerm ||
+        item.category.toLowerCase().includes(inventorySearchTerm.toLowerCase())
+    );
+    return newFilteredItems;
+  }, [inventorySearchTerm, items]);
 
   const noCartItems = useMemo(() => {
     return selectedItems.reduce((sum, item) => sum + item.count, 0);
@@ -50,7 +65,7 @@ function App() {
     const start = (currentPage - 1) * 12;
     const end = currentPage * 12;
     return filteredItems.slice(start, end);
-  }, [currentPage, filteredItems]);
+  }, [currentPage, filteredItems, items]);
 
   function handleChangePage(pageNum) {
     setCurrentPage(pageNum);
@@ -83,6 +98,14 @@ function App() {
       setSearchTerm(e.target.value);
     } else {
       setSearchTerm("");
+    }
+  }
+
+  function handleInventorySearch(e) {
+    if (e.target.value) {
+      setInventorySearchTerm(e.target.value);
+    } else {
+      setInventorySearchTerm("");
     }
   }
 
@@ -127,6 +150,26 @@ function App() {
                   setIsLoading={setIsLoading}
                   handleReset={handleReset}
                 />
+              }
+            />
+            <Route
+              path="/admin"
+              element={
+                <>
+                  <ItemContext.Provider
+                    value={{
+                      filteredItems: inventoryFilteredItems,
+                      items: items,
+                      setItems: setItems,
+                    }}
+                  >
+                    <Search
+                      searchTerm={inventorySearchTerm}
+                      handleSearch={handleInventorySearch}
+                    />
+                    <Admin />
+                  </ItemContext.Provider>
+                </>
               }
             />
           </Routes>
