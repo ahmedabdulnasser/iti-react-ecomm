@@ -97,49 +97,47 @@ export default function ItemTable() {
   );
 
   return (
-    <>
-      <div className="overflow-x-auto">
-        <table className="table table-zebra">
-          <thead>
+    <div className="overflow-x-auto w-full">
+      <table className="table table-zebra w-full">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Amount</th>
+            <th>Category</th>
+            <th>Image URL</th>
+            <th>Price</th>
+            <th>Edit</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredItems.length > 0 ? (
+            filteredItems.map((item) => {
+              return (
+                <ItemRow
+                  key={item.id}
+                  item={item}
+                  editMode={editMode}
+                  dispatchEditMode={dispatchEditMode}
+                  startEditing={startEditing}
+                  cancelEditing={cancelEditing}
+                  confirmEditing={confirmEditing}
+                  handleDelete={handleDelete}
+                />
+              );
+            })
+          ) : (
             <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Amount</th>
-              <th>Category</th>
-              <th>Image URL</th>
-              <th>Price</th>
-              <th>Edit</th>
-              <th>Delete</th>
+              <td colSpan="8">
+                <p className="flex justify-center items-center h-96">
+                  No items found...
+                </p>
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {filteredItems.length > 0 ? (
-              filteredItems.map((item) => {
-                return (
-                  <ItemRow
-                    key={item.id}
-                    item={item}
-                    editMode={editMode}
-                    dispatchEditMode={dispatchEditMode}
-                    startEditing={startEditing}
-                    cancelEditing={cancelEditing}
-                    confirmEditing={confirmEditing}
-                    handleDelete={handleDelete}
-                  />
-                );
-              })
-            ) : (
-              <tr>
-                <td colSpan="8">
-                  <p className="flex justify-center items-center h-96">
-                    No items found...
-                  </p>
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
-    </>
+          )}
+        </tbody>
+      </table>
+    </div>
   );
 }

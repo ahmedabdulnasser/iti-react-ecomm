@@ -9,6 +9,7 @@ import PageNumbers from "./components/PageNumbers";
 import Admin from "./pages/Admin";
 
 import ItemContext from "./context/ItemContext";
+import ItemAddPanel from "./components/ItemAddPanel";
 
 function App() {
   const [items, setItems] = useState([]);
@@ -19,6 +20,7 @@ function App() {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [inventorySearchTerm, setInventorySearchTerm] = useState("");
+  const [isAddingItem, setIsAddingItem] = useState(false);
 
   const categories = Array.from(new Set(items.map((item) => item.category)));
   const noPages = Math.ceil(filteredItems.length / 12);
@@ -113,13 +115,18 @@ function App() {
     <BrowserRouter>
       <>
         <Navbar noCartItems={noCartItems} />
-        <main className="p-4 font-underdog">
+        <main className="py-4 font-underdog">
           <Routes>
             <Route
               path="/"
               element={
                 <>
-                  <Search searchTerm={searchTerm} handleSearch={handleSearch} />
+                  <div className="flex gap-2 justify-center items-center w-full">
+                    <Search
+                      searchTerm={searchTerm}
+                      handleSearch={handleSearch}
+                    />
+                  </div>
                   <Products
                     filteredItems={currentPageItems}
                     setFilteredItems={setFilteredItems}
@@ -163,10 +170,24 @@ function App() {
                       setItems: setItems,
                     }}
                   >
-                    <Search
-                      searchTerm={inventorySearchTerm}
-                      handleSearch={handleInventorySearch}
-                    />
+                    <div className="flex gap-2 justify-center w-full">
+                      <button
+                        className="btn"
+                        onClick={() => setIsAddingItem(true)}
+                      >
+                        Add New Item
+                      </button>
+                      <ItemAddPanel
+                        isAddingItem={isAddingItem}
+                        setIsAddingItem={setIsAddingItem}
+                        setItems={setItems}
+                        items={items}
+                      />
+                      <Search
+                        searchTerm={inventorySearchTerm}
+                        handleSearch={handleInventorySearch}
+                      />
+                    </div>
                     <Admin />
                   </ItemContext.Provider>
                 </>

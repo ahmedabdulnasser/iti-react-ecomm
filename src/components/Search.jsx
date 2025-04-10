@@ -2,8 +2,8 @@ import React from "react";
 
 export default function Search({ searchTerm, handleSearch }) {
   return (
-    <div className="flex w-full justify-center mb-4">
-      <label className="input">
+    <div className="mb-4">
+      <label className="input w-fit">
         <svg
           className="h-[1em] opacity-50"
           xmlns="http://www.w3.org/2000/svg"

@@ -18,8 +18,8 @@ const ItemRow = React.memo(
     return (
       <>
         <tr key={item.id}>
-          <th>{item.id}</th>
-          <td>
+          <td className="w-32">{item.id}</td>
+          <td className="w-32">
             <input
               className="enabled:border-2 enabled:border-gray-200  enabled:rounded-lg "
               type="text"
@@ -34,7 +34,7 @@ const ItemRow = React.memo(
               }}
             />
           </td>
-          <td>
+          <td className="w-32">
             <input
               className="enabled:border-2 enabled:border-gray-200  enabled:rounded-md "
               type="text"
@@ -49,7 +49,7 @@ const ItemRow = React.memo(
               disabled={checkIfSelectedItem(item.id)}
             />
           </td>
-          <td>
+          <td className="w-32">
             <input
               className="enabled:border-2 enabled:border-gray-200  enabled:rounded-md "
               type="text"
@@ -64,7 +64,7 @@ const ItemRow = React.memo(
               }}
             />
           </td>
-          <td>
+          <td className="w-32">
             <input
               className="enabled:border-2 enabled:border-gray-200  enabled:rounded-md "
               type="text"
@@ -77,7 +77,7 @@ const ItemRow = React.memo(
               }}
             />
           </td>
-          <td>
+          <td className="w-32">
             {
               <input
                 className="enabled:border-2 enabled:border-gray-200  enabled:rounded-md  "
@@ -95,7 +95,7 @@ const ItemRow = React.memo(
             }
           </td>
           {editMode.isEnabled && editMode.itemId == item.id ? (
-            <td className="flex gap-1 ">
+            <td className="flex gap-1 w-32">
               {/* Confirm Edits Button */}
               <button
                 className="cursor-pointer"
@@ -145,7 +145,7 @@ const ItemRow = React.memo(
               </button>
             </td>
           ) : (
-            <td className="">
+            <td className="w-32">
               <button
                 className="cursor-pointer"
                 onClick={() => {
@@ -169,7 +169,7 @@ const ItemRow = React.memo(
               </button>
             </td>
           )}
-          <td>
+          <td className="w-32">
             {/* Delete Btn */}
             <button className="cursor-pointer">
               <svg
